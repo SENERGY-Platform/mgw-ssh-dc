@@ -1,0 +1,15 @@
+{
+  "debug": false,
+  "connector_id": "mgw-ssh-dc",
+  "mgw_mqtt_pw": "",
+  "mgw_mqtt_user": "",
+  "mgw_mqtt_broker": "localhost:1883",
+  "hosts": [
+    "localhost"
+  ],
+  "users": [
+    "root"
+  ],
+  "device_type_id": "urn:infai:ses:device-type:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "ssh_key_pw": ""
+}
