@@ -20,6 +20,7 @@ import (
 	"github.com/SENERGY-Platform/mgw-dc-lib-go/pkg/mgw"
 	"github.com/SENERGY-Platform/mgw-ssh-dc/pkg/model"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -38,7 +39,8 @@ func GetBattery(device *model.SshDcDevice, _ interface{}) (result interface{}, e
 		// probably file not found
 		return nil, nil
 	}
-	result, err = strconv.Atoi(string(bytes))
+	s := strings.TrimSuffix(string(bytes), "\n")
+	result, err = strconv.Atoi(s)
 	if err != nil {
 		return nil, err
 	}
