@@ -2,7 +2,7 @@ module github.com/SENERGY-Platform/mgw-ssh-dc
 
 go 1.19
 
-require github.com/SENERGY-Platform/mgw-dc-lib-go v0.0.0 // TODO
+require github.com/SENERGY-Platform/mgw-dc-lib-go v0.0.0-20221128120546-bfe9545c0ea5
 
 require (
 	github.com/melbahja/goph v1.3.0
@@ -25,4 +25,4 @@ require (
 	golang.org/x/sys v0.1.0 // indirect
 )
 
-replace github.com/SENERGY-Platform/mgw-dc-lib-go => ../mgw-dc-lib-go // TODO
+// replace github.com/SENERGY-Platform/mgw-dc-lib-go => ../mgw-dc-lib-go

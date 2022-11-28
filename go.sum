@@ -1,3 +1,5 @@
+github.com/SENERGY-Platform/mgw-dc-lib-go v0.0.0-20221128120546-bfe9545c0ea5 h1:sm1swRA5S1fiue5hO6Nji8l8AODPpWSPo/7BsdnFzBc=
+github.com/SENERGY-Platform/mgw-dc-lib-go v0.0.0-20221128120546-bfe9545c0ea5/go.mod h1:/ZPYwFPPfCO/l6N/7vkXzBh1Fg42oAZ0DxYXW8Q5xFE=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/eclipse/paho.mqtt.golang v1.4.2 h1:66wOzfUHSSI1zamx7jR6yMEI5EuHnT1G6rNA5PM12m4=
 github.com/eclipse/paho.mqtt.golang v1.4.2/go.mod h1:JGt0RsEwEX+Xa/agj90YJ9d9DH2b7upDZMK9HRbFvCA=
