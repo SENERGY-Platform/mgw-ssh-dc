@@ -54,7 +54,7 @@ func (dc *SshDc) Discover() {
 			defer wg.Done()
 			sshClient, err := goph.New(dc.config.Users[i], dc.config.Hosts[i], auth)
 			if err != nil {
-				dc.client.SendClientError("Could not connect to host " + dc.config.Hosts[i] + ": " + err.Error())
+				log.Println("INFO: Could not connect to host " + dc.config.Hosts[i] + ": " + err.Error())
 				return
 			}
 			res, err := sshClient.Run("ip addr | grep link/ether")
