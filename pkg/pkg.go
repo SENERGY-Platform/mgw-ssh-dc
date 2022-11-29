@@ -23,18 +23,21 @@ import (
 	"github.com/SENERGY-Platform/mgw-ssh-dc/pkg/model"
 	"github.com/SENERGY-Platform/mgw-ssh-dc/pkg/services"
 	"sync"
+	"time"
 )
 
 type SshDc struct {
-	config Config
-	client *mgw.Client[*model.SshDcDevice]
+	config    Config
+	libConfig configuration.Config
+	client    *mgw.Client[*model.SshDcDevice]
 }
 
 const dcPrefix = "mgw-ssh-dc:"
 
 func Start(config Config, libConfig configuration.Config, ctx context.Context, wg *sync.WaitGroup) (err error) {
 	dc := &SshDc{
-		config: config,
+		config:    config,
+		libConfig: libConfig,
 	}
 	client, err := mgw.New[*model.SshDcDevice](libConfig, ctx, wg, dc.Discover)
 	if err != nil {
@@ -44,5 +47,17 @@ func Start(config Config, libConfig configuration.Config, ctx context.Context, w
 	for _, s := range services.Services {
 		client.RegisterServiceStruct(s)
 	}
+	go func() {
+		t := time.NewTicker(time.Minute)
+		for {
+			select {
+			case <-t.C:
+				dc.Discover()
+				break
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
 	return
 }
