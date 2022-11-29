@@ -81,14 +81,27 @@ func (dc *SshDc) Discover() {
 					SshClient: sshClient,
 				}
 			}
-			if device.SshClient != nil {
-				_, err := device.SshClient.Run("echo")
-				if err != nil {
-					device.State = mgw.Offline
-				} else {
-					device.State = mgw.Online
-				}
+			_, err = device.SshClient.Run("echo")
+			if err != nil {
+				device.State = mgw.Offline
+			} else {
+				device.State = mgw.Online
 			}
+			go func() {
+				// Set device offline if session closes
+				err := device.SshClient.Wait()
+				if dc.libConfig.Debug {
+					log.Println("DEBUG: SSH to " + dc.config.Hosts[i] + " closed: " + err.Error())
+				}
+				device.State = mgw.Offline
+				err = dc.client.SetDevice(device)
+				if err != nil {
+					errMsg := "could not send update device : " + err.Error()
+					log.Println("ERROR: " + errMsg)
+					dc.client.SendClientError(errMsg)
+					return
+				}
+			}()
 			err = dc.client.SetDevice(device)
 			if err != nil {
 				errMsg := "could not send update device : " + err.Error()
