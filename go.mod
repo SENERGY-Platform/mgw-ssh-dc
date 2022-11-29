@@ -2,7 +2,7 @@ module github.com/SENERGY-Platform/mgw-ssh-dc
 
 go 1.19
 
-require github.com/SENERGY-Platform/mgw-dc-lib-go v0.0.0-20221128120546-bfe9545c0ea5
+require github.com/SENERGY-Platform/mgw-dc-lib-go v0.0.0-20221129060713-55138534c03c
 
 require (
 	github.com/melbahja/goph v1.3.0
