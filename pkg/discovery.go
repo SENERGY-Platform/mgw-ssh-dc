@@ -72,6 +72,15 @@ func (dc *SshDc) Discover() {
 
 			id := dcPrefix + macs[0][15:32]
 			device, ok := devices[id]
+			if !ok {
+				device = &model.SshDcDevice{
+					DeviceInfo: mgw.DeviceInfo{
+						Id:         id,
+						Name:       "SSH " + dc.config.Hosts[i],
+						DeviceType: dc.config.DeviceTypeId,
+					},
+				}
+			}
 			if device.SshClient != nil {
 				device.ClosedByConnector = true
 				err = device.SshClient.Close()
@@ -80,15 +89,6 @@ func (dc *SshDc) Discover() {
 				}
 				time.Sleep(time.Second)
 				device.ClosedByConnector = false
-			}
-			if !ok || device.SshClient == nil {
-				device = &model.SshDcDevice{
-					DeviceInfo: mgw.DeviceInfo{
-						Id:         id,
-						Name:       "SSH " + dc.config.Hosts[i],
-						DeviceType: dc.config.DeviceTypeId,
-					},
-				}
 			}
 			device.SshClient = sshClient
 			_, err = device.SshClient.Run("echo")
