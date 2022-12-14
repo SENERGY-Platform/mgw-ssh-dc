@@ -25,6 +25,7 @@ import (
 	"os"
 	"strings"
 	"sync"
+	"time"
 )
 
 func (dc *SshDc) Discover() {
@@ -42,7 +43,7 @@ func (dc *SshDc) Discover() {
 		return
 	}
 	if len(dc.config.Users) != len(dc.config.Hosts) {
-		panic("expected users and ") // TODO
+		log.Fatalln("ERROR: expected users and hosts to be same length")
 	}
 	wg := sync.WaitGroup{}
 	updatedIds := []string{}
@@ -71,6 +72,15 @@ func (dc *SshDc) Discover() {
 
 			id := dcPrefix + macs[0][15:32]
 			device, ok := devices[id]
+			if device.SshClient != nil {
+				device.ClosedByConnector = true
+				err = device.SshClient.Close()
+				if err != nil {
+					dc.client.SendDeviceError(device.Id, "Could not close ssh session: "+err.Error())
+				}
+				time.Sleep(time.Second)
+				device.ClosedByConnector = false
+			}
 			if !ok || device.SshClient == nil {
 				device = &model.SshDcDevice{
 					DeviceInfo: mgw.DeviceInfo{
@@ -78,9 +88,9 @@ func (dc *SshDc) Discover() {
 						Name:       "SSH " + dc.config.Hosts[i],
 						DeviceType: dc.config.DeviceTypeId,
 					},
-					SshClient: sshClient,
 				}
 			}
+			device.SshClient = sshClient
 			_, err = device.SshClient.Run("echo")
 			if err != nil {
 				device.State = mgw.Offline
@@ -92,6 +102,10 @@ func (dc *SshDc) Discover() {
 				err := device.SshClient.Wait()
 				if dc.libConfig.Debug {
 					log.Println("DEBUG: SSH to " + dc.config.Hosts[i] + " closed: " + err.Error())
+				}
+				if device.ClosedByConnector {
+					// don't set device offline if closed on purpose
+					return
 				}
 				device.State = mgw.Offline
 				err = dc.client.SetDevice(device)

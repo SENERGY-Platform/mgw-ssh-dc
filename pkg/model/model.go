@@ -23,7 +23,8 @@ import (
 
 type SshDcDevice struct {
 	mgw.DeviceInfo
-	SshClient *goph.Client
+	SshClient         *goph.Client
+	ClosedByConnector bool
 }
 
 func (d *SshDcDevice) GetInfo() mgw.DeviceInfo {
