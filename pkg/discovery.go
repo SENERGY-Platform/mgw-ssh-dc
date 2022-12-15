@@ -85,7 +85,7 @@ func (dc *SshDc) Discover() {
 				device.ClosedByConnector = true
 				err = device.SshClient.Close()
 				if err != nil {
-					dc.client.SendDeviceError(device.Id, "Could not close ssh session: "+err.Error())
+					log.Println("WARNING: Could not close ssh session: " + err.Error())
 				}
 				time.Sleep(time.Second)
 				device.ClosedByConnector = false
