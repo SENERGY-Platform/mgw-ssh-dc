@@ -1,7 +1,7 @@
 modfileVersion: "v1"
 id: github.com/SENERGY-Platform/mgw-ssh-dc/module
 name: SSH Device-Connector
-version: v0.0.1
+version: v0.0.2
 type: device-connector
 deploymentType: single
 license: "Apache License 2.0"
@@ -14,10 +14,18 @@ dependencies:
           template: "{ref}:1883"
           services:
             - mgw-ssh-dc
+hostResources:
+  sshFolder:
+    userInput:
+      name: SSH Folder
+    targets:
+    - mountPoint: "/root/.ssh"
+      services:
+        - mgw-ssh-dc
 services:
   mgw-ssh-dc:
     name: mgw-ssh-dc
-    image: ghcr.io/senergy-platform/mgw-ssh-dc:v0.0.1
+    image: ghcr.io/senergy-platform/mgw-ssh-dc:v0.0.2
 configs:
   discoveryIps:
     dataType: string
