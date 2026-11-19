@@ -11,12 +11,8 @@ require (
 
 require (
 	github.com/eclipse/paho.mqtt.golang v1.4.2 // indirect
-	github.com/gorilla/websocket v1.4.2 // indirect
-	github.com/josharian/native v1.0.0 // indirect
+	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/kr/fs v0.1.0 // indirect
-	github.com/mdlayher/ethernet v0.0.0-20220221185849-529eae5b6118 // indirect
-	github.com/mdlayher/packet v1.0.0 // indirect
-	github.com/mdlayher/socket v0.2.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pkg/sftp v1.13.4 // indirect
 	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
